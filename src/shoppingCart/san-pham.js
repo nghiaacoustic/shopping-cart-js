@@ -10,7 +10,7 @@ export default class SanPham extends Component {
           <div className="card-body">
             <h4 className="card-title">VinSmart Live</h4>
             <button className="btn btn-success" onClick={()=> {this.props.bidingDetails(this.props.product)}}>Chi tiết</button>
-            <button className="btn btn-danger">Thêm giỏ hàng</button>
+            <button className="btn btn-danger" onClick={()=>{this.props.addCart(this.props.product)}}>Thêm giỏ hàng</button>
           </div>
         </div>
       </div>

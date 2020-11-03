@@ -10,6 +10,7 @@ export default class LiftingStateUpCart extends Component {
     this.state = {
       listProduct : data,
       productDetails : data[0],
+      listCart : [],
     };
   };
 
@@ -19,9 +20,70 @@ export default class LiftingStateUpCart extends Component {
       productDetails: product,
     });
   };
+  _findIndex = (maSP) => {
+    return this.state.listCart.findIndex((item)=>{
+      return item.maSP === maSP;
+    });
+  };
 
-  addCart = () => {
-    
+  addCart = (product) => {
+    const index = this._findIndex(product.maSP);
+    let listCart = [...this.state.listCart];
+    if(index!==-1){
+      listCart[index].soLuong+=1;
+    }else{
+      const productNew = {
+        maSP: product.maSP,
+        tenSP: product.tenSP,
+        hinhAnh:product.hinhAnh,
+        soLuong:1,
+        giaBan : product.giaBan,
+      };
+      listCart = [...this.state.listCart, productNew]
+    }
+
+    this.setState({
+      listCart, 
+    })
+  }
+  deleteProduct = (product) => {
+    let listCart = [...this.state.listCart];
+    let index= listCart.indexOf(product);
+    if (index !== -1) {
+      listCart.splice(index,1);
+      this.setState({
+        listCart,
+      })
+    }
+  };
+
+
+  increaseBtn = (product) =>{
+    let listCart = [...this.state.listCart];
+    let index= listCart.indexOf(product);
+    if (index !== -1) {
+      listCart[index].soLuong+=1;
+      this.setState({
+        listCart,
+      })
+    }
+  };
+
+  decreaseBtn = (product) =>{
+    let listCart = [...this.state.listCart];
+    let index= listCart.indexOf(product);
+    if (index !== -1) {
+      listCart[index].soLuong-=1;
+      if(listCart[index].soLuong==0){
+        listCart.splice(index,1);
+        this.setState({
+          listCart,
+      })
+      }
+      this.setState({
+        listCart,
+      })
+    }
   }
 
   render() {
@@ -43,7 +105,12 @@ export default class LiftingStateUpCart extends Component {
             bidingDetails = {this.bidingDetails}
             addCart = {this.addCart}
             />
-        <Modal />
+        <Modal
+         listCart = {this.state.listCart}
+          deleteProduct={this.deleteProduct}
+          increaseBtn = {this.increaseBtn}
+          decreaseBtn = {this.decreaseBtn}
+         />
         <div className="row">
           <div className="col-sm-5">
             <img className="img-fluid" src={productDetails.hinhAnh} alt="" />
