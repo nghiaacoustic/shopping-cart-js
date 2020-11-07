@@ -58,33 +58,65 @@ export default class LiftingStateUpCart extends Component {
   };
 
 
-  increaseBtn = (product) =>{
-    let listCart = [...this.state.listCart];
-    let index= listCart.indexOf(product);
-    if (index !== -1) {
-      listCart[index].soLuong+=1;
-      this.setState({
-        listCart,
-      })
-    }
-  };
+  // increaseBtn = (product) =>{
+  //   let listCart = [...this.state.listCart];
+  //   let index= listCart.indexOf(product);
+  //   if (index !== -1) {
+  //     listCart[index].soLuong+=1;
+  //     this.setState({
+  //       listCart,
+  //     })
+  //   }
+  // };
 
-  decreaseBtn = (product) =>{
-    let listCart = [...this.state.listCart];
-    let index= listCart.indexOf(product);
-    if (index !== -1) {
-      listCart[index].soLuong-=1;
-      if(listCart[index].soLuong==0){
-        listCart.splice(index,1);
-        this.setState({
-          listCart,
-      })
-      }
-      this.setState({
-        listCart,
-      })
-    }
+  // decreaseBtn = (product) =>{
+  //   let listCart = [...this.state.listCart];
+  //   let index= listCart.indexOf(product);
+  //   if (index !== -1) {
+  //     listCart[index].soLuong-=1;
+  //     if(listCart[index].soLuong==0){
+  //       listCart.splice(index,1);
+  //         //   this.setState({
+  //         //     listCart,
+  //         // })
+  //     }
+  //     this.setState({
+  //       listCart,
+  //     })
+  //   }
+  // }
+  // cartCount = () => {
+  //   let listCart = [...this.state.listCart];
+  //   let quantity = listCart.reduce();
+  //   this.setState({
+  //     cartQuantity : quantity,
+  //   })
+  // }
+
+  cartQuantity = () =>{
+    return this.state.listCart.reduce((a,b)=>{
+      return a+b.soLuong;
+    },0)
   }
+
+  updateQuantity= (product , status) =>{
+    let listCart = [...this.state.listCart];
+    let index = listCart.indexOf(product);
+    if(index!==-1){
+      if(status){
+        listCart[index].soLuong +=1;
+      } else{
+          listCart[index].soLuong -= 1;
+          if (listCart[index].soLuong == 0)
+          {
+            listCart.splice(index, 1)
+          }
+        }
+    }
+    this.setState({
+      listCart,
+    })
+  };
 
   render() {
     const { productDetails} = this.state;
@@ -97,7 +129,7 @@ export default class LiftingStateUpCart extends Component {
             data-toggle="modal"
             data-target="#modelId"
           >
-            Giỏ hàng (0)
+            Giỏ hàng ({this.cartQuantity()})
           </button>
         </div>
         <DanhSachSanPham 
@@ -108,8 +140,9 @@ export default class LiftingStateUpCart extends Component {
         <Modal
          listCart = {this.state.listCart}
           deleteProduct={this.deleteProduct}
-          increaseBtn = {this.increaseBtn}
-          decreaseBtn = {this.decreaseBtn}
+          // increaseBtn = {this.increaseBtn}
+          // decreaseBtn = {this.decreaseBtn}
+          updateQuantity={this.updateQuantity}
          />
         <div className="row">
           <div className="col-sm-5">

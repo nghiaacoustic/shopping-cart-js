@@ -13,9 +13,9 @@ export default class Modal extends Component {
             <img src={product.hinhAnh} width="50"/>
           </td>
           <td>
-            <button className="btn btn-danger" onClick={()=>{this.props.decreaseBtn(product)}}>-</button>
+            <button className="btn btn-danger" onClick={() => { this.props.updateQuantity(product,false)}}>-</button>
             {product.soLuong}
-            <button className="btn btn-success" onClick={()=>{this.props.increaseBtn(product)}}>+</button>
+            <button className="btn btn-success" onClick={() => { this.props.updateQuantity(product, true) }}>+</button>
           </td>
           <td>{product.giaBan}</td>
           <td>{product.giaBan * product.soLuong}</td>
